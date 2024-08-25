@@ -1,26 +1,29 @@
 import { store } from 'quasar/wrappers'
 import { createStore } from 'vuex'
 
-// import example from './module-example'
-
-/*
- * If not building with SSR mode, you can
- * directly export the Store instantiation;
- *
- * The function below can be async too; either use
- * async/await or return a Promise which resolves
- * with the Store instance.
- */
-
 export default store(function (/* { ssrContext } */) {
   const Store = createStore({
-    modules: {
-      // example
+    state: {currentuser: null},
+    getters: {
+      isAdmin: state => {
+        if (state.userProfile && (state.userProfile.access == "sysSuperAdmin" || state.userProfile.access == "sysAdmin")) return true
+        return false
+      }
     },
+    mutations: {
+      gmailUser(state, guser) {
+          state.gmailUserDetails = guser
+        },
+      changeCurrentUser(state, user) {
+          // mutate state
+          state.currentuser = user
 
-    // enable strict mode (adds overhead!)
-    // for dev mode and --debug builds only
-    strict: process.env.DEBUGGING
+      },
+      setUserProfile(state, userProfile) {
+          // mutate state
+          state.userProfile = userProfile
+      },
+    }
   })
 
   return Store
