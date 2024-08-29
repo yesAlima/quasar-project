@@ -105,6 +105,108 @@
         >
           {{ lob.label }}
         </div>
+        <q-card-section class="row full-width" v-if="lob.value == '1'">
+          <q-card-section class="column col-6 q-gutter-sm">
+            <q-input
+              :color="(lob ? (lob.color + '-4') : 'white')"
+              outlined
+              label="Building Fixtures"
+              v-model="lobModel.buildingFix"
+            />
+            <q-input
+              :color="(lob ? (lob.color + '-4') : 'white')"
+              outlined
+              label="Jewellery"
+              v-model="lobModel.jewel"
+            />
+            <q-input
+              :color="(lob ? (lob.color + '-4') : 'white')"
+              outlined
+              label="Stock"
+              v-model="lobModel.stock"
+            />
+            <q-input
+              :color="(lob ? (lob.color + '-4') : 'white')"
+              outlined
+              label="Other"
+              v-model="lobModel.other"
+            />
+            <q-input
+              :color="(lob ? (lob.color + '-4') : 'white')"
+              outlined
+              label="Months"
+              v-model="lobModel.months"
+            />
+            <q-input
+              :color="(lob ? (lob.color + '-4') : 'white')"
+              outlined
+              label="Total"
+              v-model="lobModel.total"
+            />
+            <q-select
+              :color="(lob ? (lob.color + '-4') : 'white')"
+              v-model="lobModel.riskType"
+              outlined
+              label="Risk Type"
+              :options="getRiskTypes"
+            />
+            <q-input
+              :color="(lob ? (lob.color + '-4') : 'white')"
+              outlined
+              label="Risk Addres"
+              v-model="lobModel.riskAddress"
+            />
+          </q-card-section>
+          <q-card-section class="column col q-gutter-sm">
+            <q-input
+              :color="(lob ? (lob.color + '-4') : 'white')"
+              outlined
+              label="Beneficiary For"
+              v-model="lobModel.beneFor" />
+            <q-input
+              :color="(lob ? (lob.color + '-4') : 'white')"
+              outlined
+              label="Furniture"
+              v-model="lobModel.furniture"
+            />
+            <q-input
+              :color="(lob ? (lob.color + '-4') : 'white')"
+              outlined
+              label="Machinery"
+              v-model="lobModel.machinery"
+            />
+            <q-input
+              :color="(lob ? (lob.color + '-4') : 'white')"
+              outlined
+              label="Decoration"
+              v-model="lobModel.decoration"
+            />
+            <q-input
+              :color="(lob ? (lob.color + '-4') : 'white')"
+              outlined
+              label="Age"
+              v-model="lobModel.age"
+            />
+            <q-input
+              :color="(lob ? (lob.color + '-4') : 'white')"
+              outlined
+              label="Amount"
+              v-model="lobModel.amount"
+            />
+            <q-input
+              :color="(lob ? (lob.color + '-4') : 'white')"
+              outlined
+              label="Stories"
+              v-model="lobModel.stories"
+            />
+            <q-input
+              :color="(lob ? (lob.color + '-4') : 'white')"
+              outlined
+              label="PML%"
+              v-model="lobModel.pml"
+            />
+          </q-card-section>
+        </q-card-section>
         <q-card-section class="column full-width q-gutter-lg" v-if="lob.value == '2'">
           <q-input
             :color="(lob ? (lob.color + '-4') : 'white')"
@@ -159,11 +261,13 @@
             />
           </q-card-section>
           <q-card-section class="column col q-gutter-sm">
-            <q-input
+            <q-select
               :color="(lob ? (lob.color + '-4') : 'white')"
+              v-model="lobModel.repcar"
               outlined
               label="Replace Car"
-              v-model="lobModel.repcar" />
+              :options="getCarRepOpts"
+            />
             <q-select
               :color="(lob ? (lob.color + '-4') : 'white')"
               v-model="lobModel.color"
@@ -189,11 +293,68 @@
               label="Chassis No."
               v-model="lobModel.chassisNo"
             />
+            <q-select
+              :color="(lob ? (lob.color + '-4') : 'white')"
+              v-model="lobModel.fVehicle"
+              outlined
+              label="Vehicle"
+              :options="getVehicles"
+            />
+          </q-card-section>
+        </q-card-section>
+        <q-card-section class="row full-width" v-if="lob.value == '6'">
+          <q-card-section class="column col-6 q-gutter-sm">
             <q-input
               :color="(lob ? (lob.color + '-4') : 'white')"
               outlined
+              label="Seats"
+              v-model="lobModel.fSeats"
+            />
+            <q-input
+              :color="(lob ? (lob.color + '-4') : 'white')"
+              outlined
+              label="Year"
+              v-model="lobModel.fYear"
+            />
+            <q-input
+              :color="(lob ? (lob.color + '-4') : 'white')"
+              outlined
+              label="Plate No."
+              v-model="lobModel.fPlateNo"
+            />
+          </q-card-section>
+          <q-card-section class="column col q-gutter-sm">
+            <q-select
+              :color="(lob ? (lob.color + '-4') : 'white')"
+              v-model="lobModel.fRepcar"
+              outlined
+              label="Replace Car"
+              :options="getCarRepOpts"
+            />
+            <q-input
+              :color="(lob ? (lob.color + '-4') : 'white')"
+              outlined
+              label="Model"
+              v-model="lobModel.fModel"
+            />
+            <q-input
+              :color="(lob ? (lob.color + '-4') : 'white')"
+              outlined
+              label="Driver CPR"
+              v-model="lobModel.fDriverCPR"
+            />
+            <q-input
+              :color="(lob ? (lob.color + '-4') : 'white')"
+              outlined
+              label="Chassis No."
+              v-model="lobModel.fChassisNo"
+            />
+            <q-select
+              :color="(lob ? (lob.color + '-4') : 'white')"
+              v-model="lobModel.fVehicle"
+              outlined
               label="Vehicle"
-              v-model="lobModel.make"
+              :options="getVehicles"
             />
           </q-card-section>
         </q-card-section>
@@ -274,7 +435,6 @@
         >
           <q-card-section
             class="column col-6 q-gutter-sm"
-            style="height: fit-content; width: fit-content"
           >
             <q-input
               :color="(lob ? (lob.color + '-4') : 'white')"
@@ -305,6 +465,18 @@
               label="Discount"
               outlined
               v-model="premium.discount"
+            />
+            <q-input
+              :color="(lob ? (lob.color + '-4') : 'white')"
+              label="Premium Rate"
+              outlined
+              v-model="premium.premiumRate"
+            />
+            <q-input
+              :color="(lob ? (lob.color + '-4') : 'white')"
+              label="Commission Rate"
+              outlined
+              v-model="premium.commRate"
             />
           </q-card-section>
           <q-card-section
@@ -341,8 +513,30 @@
               outlined
               v-model="premium.grossVAT"
             />
+            <q-input
+              :color="(lob ? (lob.color + '-4') : 'white')"
+              label="Commission"
+              outlined
+              v-model="premium.commission"
+            />
+            <q-input
+              :color="(lob ? (lob.color + '-4') : 'white')"
+              label="Commission Deduction"
+              outlined
+              v-model="premium.commDeduction"
+            />
           </q-card-section>
-        </q-card-section>
+          <q-card-actions class="full-width">
+            <q-select
+              class="full-width"
+              :color="(lob ? (lob.color + '-4') : 'white')"
+              v-model="premium.payment"
+              outlined
+              label="Payment"
+              :options="getPayments"
+            />
+          </q-card-actions>
+      </q-card-section>
       </q-card-section>
     </span>
     <q-separator inset :color="(lob ? (lob.color + '-4') : 'white')"/>
@@ -400,6 +594,11 @@ export default {
         otherServicesDiscount: "",
         otherServicesVAT: "",
         grossVAT: "",
+        premiumRate: "",
+        payment: null,
+        commission: "",
+        commDeduction: "",
+        commRate: ""
       };
     if (self.existingDates) self.dates = self.existingDates;
     else
@@ -419,7 +618,24 @@ export default {
   methods: {
     updateLobModel(lobi) {
       if (lobi == "1") {
-        this.lobModel = {};
+        this.lobModel = {
+          beneFor: "",
+          buildingFix: "",
+          jewel: "",
+          stock: "",
+          other: "",
+          months: "",
+          total: "",
+          riskType: "",
+          riskAddress: "",
+          furniture: "",
+          machinery: "",
+          decoration: "",
+          age: "",
+          amount: "",
+          stories: "",
+          pml: ""
+        };
       } else if (lobi == "2") {
         this.lobModel = {
           voyageFrom: "",
@@ -429,18 +645,28 @@ export default {
         this.lobModel = {
           plateNo: "",
           chassisNo: "",
-          make: "",
+          vehicle: "",
           seats: "",
           year: "",
           engine: "",
           cc: "",
-          repcar: "",
+          repcar: null,
           color: null,
           model: "",
           driverCPR: "",
         };
       } else if (lobi == "6") {
-        this.lobModel = {};
+        this.lobModel = {
+          fPlateNo: "",
+          fChassisNo: "",
+          fVehicle: null,
+          fSeats: "",
+          fYear: "",
+          fRepcar: null,
+          fColor: null,
+          fModel: "",
+          fDriverCPR: "",
+        };
       } else if (lobi == "8") {
         this.lobModel = {
           travelType: null,
@@ -704,6 +930,13 @@ export default {
       else if (lobi == '9')
         return [ { label: 'Takaful Performance Bond', value:'1030' } ]
     },
+    getPayments() {
+      return [
+        { label:'No', value:'1' },
+        { label:'Yes', value:'2' },
+        { label:'Partial', value:'3' }
+      ]
+    },
     getColors() {
       return [
         { label: 'White', value: '1' },
@@ -728,6 +961,328 @@ export default {
         { label: 'MAUVE', value: '17' },
       ];
     },
+    getCarRepOpts() {
+      return [
+        { label:'No', value:'1' },
+        { label:'Yes', value:'2' },
+      ]
+    },
+    getVehicles() {
+      return [
+        { label: 'ABI', value:'106100' },
+        { label: 'Acura', value:'103400' },
+        { label: 'Admiral', value:'112300' },
+        { label: 'Alfa Romeo', value:'160200' },
+        { label: 'American', value:'210000' },
+        { label: 'Aprilia', value:'103900' },
+        { label: 'Ashkosh', value:'960500' },
+        { label: 'Ashok Leyland', value:'190100' },
+        { label: 'Asia', value:'130400' },
+        { label: 'Aston Martin', value:'206000' },
+        { label: 'Astra', value:'114001' },
+        { label: 'ATLAS', value:'209700' },
+        { label: 'Audi', value:'120600' },
+        { label: 'Ausa', value:'103600' },
+        { label: 'BAIC', value:'1000025' },
+        { label: 'BAICE', value:'1000000' },
+        { label: 'Bajaj', value:'102600' },
+        { label: 'Beaver', value:'104600' },
+        { label: 'Bedford', value:'209100' },
+        { label: 'Belarus', value:'960700' },
+        { label: 'Bentley', value:'980700' },
+        { label: 'Benzhou', value:'112800' },
+        { label: 'Blac', value:'960900' },
+        { label: 'BMW', value:'120200' },
+        { label: 'Bobcat', value:'111200' },
+        { label: 'BOMAG', value:'982000' },
+        { label: 'Boss', value:'961000' },
+        { label: 'Buell', value:'990200' },
+        { label: 'Bugatti', value:'104800' },
+        { label: 'Buick', value:'110900' },
+        { label: 'BYD', value:'105500' },
+        { label: 'Caddy', value:'961100' },
+        { label: 'Cadillac', value:'110500' },
+        { label: 'CAMRY', value:'1000002' },
+        { label: 'Can-Am', value:'107400' },
+        { label: 'Canter', value:'961200' },
+        { label: 'Case', value:'103800' },
+        { label: 'Caterham', value:'105600' },
+        { label: 'Caterpiller', value:'110400' },
+        { label: 'CHANG JIANG', value:'1000032' },
+        { label: 'CHANGAN', value:'1000008' },
+        { label: 'Cheng Gong', value:'101500' },
+        { label: 'Chery', value:'112400' },
+        { label: 'Chevrolet', value:'110200' },
+        { label: 'chevrolet', value:'1000019' },
+        { label: 'CHEVROLET', value:'1000023' },
+        { label: 'Chrysler', value:'110600' },
+        { label: 'Citroen', value:'150300' },
+        { label: 'Clark', value:'961500' },
+        { label: 'CMC', value:'197000' },
+        { label: 'Cygnus', value:'113800' },
+        { label: 'Dacia', value:'961700' },
+        { label: 'Daewoo', value:'130200' },
+        { label: 'DAF', value:'102004' },
+        { label: 'Daihatsu', value:'100900' },
+        { label: 'Daimler', value:'961800' },
+        { label: 'Datsun', value:'120000' },
+        { label: 'Demag', value:'991000' },
+        { label: 'Dodge', value:'111000' },
+        { label: 'Dongfeng', value:'962000' },
+        { label: 'Doosan', value:'111900' },
+        { label: 'Ducati', value:'980600' },
+        { label: 'Dynapac', value:'102800' },
+        { label: 'EADO', value:'1000031' },
+        { label: 'Eicher', value:'980502' },
+        { label: 'Eight Ball', value:'980800' },
+        { label: 'Falcon', value:'160900' },
+        { label: 'Faw', value:'140700' },
+        { label: 'Fenwick', value:'962300' },
+        { label: 'Ferguson', value:'962400' },
+        { label: 'Ferrari', value:'150600' },
+        { label: 'Fiat', value:'160100' },
+        { label: 'Fisker', value:'112900' },
+        { label: 'Foden', value:'103000' },
+        { label: 'Ford', value:'110100' },
+        { label: 'Forklift', value:'999000' },
+        { label: 'FORTUNER', value:'1000004' },
+        { label: 'Foton', value:'203000' },
+        { label: 'Freightliner', value:'102400' },
+        { label: 'Fun', value:'962700' },
+        { label: 'Furukawa', value:'209600' },
+        { label: 'FUSO', value:'1000007' },
+        { label: 'Futian', value:'962900' },
+        { label: 'Fxd', value:'963000' },
+        { label: 'GAC', value:'108500' },
+        { label: 'GAC Gonow', value:'108000' },
+        { label: 'Gec', value:'963100' },
+        { label: 'Geely', value:'101200' },
+        { label: 'Genbi', value:'170200' },
+        { label: 'GENESIS', value:'1000027' },
+        { label: 'Genie', value:'105700' },
+        { label: 'GMC', value:'110300' },
+        { label: 'GMC', value:'1000016' },
+        { label: 'GMC', value:'1000017' },
+        { label: 'GMC', value:'1000018' },
+        { label: 'Golden Dragon', value:'204000' },
+        { label: 'Gonow', value:'989000' },
+        { label: 'Great Wall', value:'980501' },
+        { label: 'Grove', value:'196000' },
+        { label: 'Hafei', value:'963400' },
+        { label: 'HAMM', value:'160800' },
+        { label: 'Hangchar', value:'113100' },
+        { label: 'Haojue', value:'107500' },
+        { label: 'Harley Davidson', value:'980400' },
+        { label: 'Haulotte', value:'1000005' },
+        { label: 'HAVAL', value:'1000010' },
+        { label: 'Haval', value:'1000011' },
+        { label: 'HAVAL', value:'1000012' },
+        { label: 'Heli', value:'104500' },
+        { label: 'Hennessey', value:'112500' },
+        { label: 'Hero', value:'113700' },
+        { label: 'Hindustan', value:'107000' },
+        { label: 'Hino', value:'150400' },
+        { label: 'Hitachi', value:'140900' },
+        { label: 'Hofmann', value:'963900' },
+        { label: 'Holand', value:'964000' },
+        { label: 'Holder', value:'964100' },
+        { label: 'honda', value:'1000013' },
+        { label: 'honda', value:'1000014' },
+        { label: 'Honda', value:'100300' },
+        { label: 'Houster', value:'964300' },
+        { label: 'Hummer', value:'981000' },
+        { label: 'Hunter', value:'1000024' },
+        { label: 'Hw-Lift', value:'112200' },
+        { label: 'Hydra', value:'964400' },
+        { label: 'Hyosung', value:'102300' },
+        { label: 'Hyster', value:'111700' },
+        { label: 'Hyundai', value:'130100' },
+        { label: 'HYUNDAI', value:'1000021' },
+        { label: 'Indian', value:'170300' },
+        { label: 'Infiniti', value:'101100' },
+        { label: 'Ingersoll Rand', value:'114100' },
+        { label: 'International', value:'111800' },
+        { label: 'Iran Khodra', value:'980900' },
+        { label: 'Ironfairy', value:'964600' },
+        { label: 'Isuzu', value:'100800' },
+        { label: 'Iveco', value:'160300' },
+        { label: 'JAC', value:'198000' },
+        { label: 'Jaguar', value:'111300' },
+        { label: 'JBC', value:'106800' },
+        { label: 'JCB', value:'130700' },
+        { label: 'Jeep', value:'110700' },
+        { label: 'Jensen', value:'108100' },
+        { label: 'Jinbei', value:'102001' },
+        { label: 'JLG', value:'107700' },
+        { label: 'JMC', value:'120900' },
+        { label: 'Jonway', value:'103100' },
+        { label: 'Kalmar', value:'106200' },
+        { label: 'Kato', value:'160400' },
+        { label: 'Kawasaki', value:'980100' },
+        { label: 'Kenworth', value:'101800' },
+        { label: 'Kia', value:'130300' },
+        { label: 'Kinetic', value:'993000' },
+        { label: 'King Long', value:'103300' },
+        { label: 'Kobilco', value:'130600' },
+        { label: 'koenigsegg', value:'130900' },
+        { label: 'Komatsu', value:'170400' },
+        { label: 'Korando', value:'964800' },
+        { label: 'Koremoto', value:'106400' },
+        { label: 'Krupp', value:'101400' },
+        { label: 'KTM', value:'104400' },
+        { label: 'KYMCO', value:'150800' },
+        { label: 'Lada', value:'965000' },
+        { label: 'Laforza', value:'965100' },
+        { label: 'Lamborghini', value:'130000' },
+        { label: 'Land Rover', value:'180100' },
+        { label: 'Langfang', value:'112100' },
+        { label: 'Lesham', value:'965300' },
+        { label: 'Lexus', value:'101000' },
+        { label: 'Leyland', value:'102000' },
+        { label: 'Liebherr', value:'160500' },
+        { label: 'Lifan', value:'106300' },
+        { label: 'Lincoln', value:'986000' },
+        { label: 'Linde', value:'965400' },
+        { label: 'Lindy', value:'996000' },
+        { label: 'Locatelli', value:'113400' },
+        { label: 'Locomotive', value:'995000' },
+        { label: 'Longgong Shanghai', value:'106500' },
+        { label: 'Lorain', value:'102700' },
+        { label: 'Lotus', value:'997000' },
+        { label: 'Luling', value:'193000' },
+        { label: 'Mack', value:'101300' },
+        { label: 'Mahindra', value:'195000' },
+        { label: 'Man', value:'180300' },
+        { label: 'Maserati', value:'140400' },
+        { label: 'MAXIMA', value:'1000003' },
+        { label: 'Maxus', value:'108300' },
+        { label: 'MAYBACH', value:'207000' },
+        { label: 'Mazda', value:'100600' },
+        { label: 'McLaren', value:'111600' },
+        { label: 'Mercedes', value:'120100' },
+        { label: 'Mercury', value:'194000' },
+        { label: 'MG', value:'106600' },
+        { label: 'Mini', value:'192000' },
+        { label: 'Mitsubishi', value:'100400' },
+        { label: 'Mitsuoka', value:'103700' },
+        { label: 'Monaco', value:'113300' },
+        { label: 'Moto Guzzi', value:'102900' },
+        { label: 'Mustang', value:'105200' },
+        { label: 'Neoplan', value:'965800' },
+        { label: 'New Holland', value:'990000' },
+        { label: 'NISSAN', value:'1000020' },
+        { label: 'Nissan', value:'100200' },
+        { label: 'Nissan', value:'1000026' },
+        { label: 'Noble', value:'104000' },
+        { label: 'Oldsmobile', value:'110800' },
+        { label: 'Opel', value:'120300' },
+        { label: 'Orion', value:'965900' },
+        { label: 'Oshkosh', value:'966000' },
+        { label: 'P &amp; H', value:'102006' },
+        { label: 'Pendini', value:'113200' },
+        { label: 'Pene', value:'990100' },
+        { label: 'Peugeot', value:'150100' },
+        { label: 'PGO', value:'105100' },
+        { label: 'Plymouth', value:'107300' },
+        { label: 'Polarsun', value:'112000' },
+        { label: 'Pontiac', value:'111100' },
+        { label: 'Porsche', value:'120500' },
+        { label: 'PPM', value:'998000' },
+        { label: 'Proton', value:'111400' },
+        { label: 'Qihdona', value:'105300' },
+        { label: 'RABA', value:'100110' },
+        { label: 'RAM', value:'1000009' },
+        { label: 'Range Rover', value:'980500' },
+        { label: 'Renault', value:'150200' },
+        { label: 'Revcon', value:'104700' },
+        { label: 'RHINO', value:'209400' },
+        { label: 'Riya', value:'112700' },
+        { label: 'Rolls Royce', value:'180200' },
+        { label: 'Rover', value:'150900' },
+        { label: 'Royal Enfield', value:'980300' },
+        { label: 'Ruston', value:'966700' },
+        { label: 'Saab', value:'140200' },
+        { label: 'Sachs', value:'113600' },
+        { label: 'SAIC', value:'1000015' },
+        { label: 'Saleen', value:'104900' },
+        { label: 'Sany', value:'108200' },
+        { label: 'Sanyang', value:'104300' },
+        { label: 'Scammell', value:'967000' },
+        { label: 'Scania', value:'140300' },
+        { label: 'Scion', value:'103200' },
+        { label: 'Seat', value:'170100' },
+        { label: 'Semi Trailer', value:'104200' },
+        { label: 'SETRA', value:'1001037' },
+        { label: 'Shantui', value:'107100' },
+        { label: 'Shelby', value:'105400' },
+        { label: 'Silla', value:'967300' },
+        { label: 'Simon', value:'967400' },
+        { label: 'Sisu', value:'967500' },
+        { label: 'Skid', value:'967600' },
+        { label: 'Skoda', value:'120700' },
+        { label: 'Smart', value:'180900' },
+        { label: 'Ssangyong', value:'130500' },
+        { label: 'SSANGYONG', value:'1000028' },
+        { label: 'Steinbock', value:'967800' },
+        { label: 'Sterling', value:'103500' },
+        { label: 'Subaru', value:'100700' },
+        { label: 'Sumitomo', value:'105800' },
+        { label: 'Suzuki', value:'100500' },
+        { label: 'Tadano', value:'150700' },
+        { label: 'Tailift', value:'108400' },
+        { label: 'TAMROCK RANGER', value:'209800' },
+        { label: 'Taotao', value:'105900' },
+        { label: 'TATA', value:'111500' },
+        { label: 'Tatra', value:'967900' },
+        { label: 'TAZZARI', value:'113500' },
+        { label: 'TCM', value:'100210' },
+        { label: 'Terberg', value:'968100' },
+        { label: 'Terex', value:'992000' },
+        { label: 'Tesla', value:'994000' },
+        { label: 'TGB', value:'107200' },
+        { label: 'Thomas', value:'968200' },
+        { label: 'Thwaites', value:'968300' },
+        { label: 'Tianma', value:'102200' },
+        { label: 'TIIDA', value:'1000001' },
+        { label: 'Tipper', value:'968400' },
+        { label: 'Tough Customs', value:'199000' },
+        { label: 'Toyota', value:'100100' },
+        { label: 'TOYOTA', value:'1000022' },
+        { label: 'Trade Plate', value:'999999' },
+        { label: 'Trans', value:'191000' },
+        { label: 'Transmark', value:'150500' },
+        { label: 'Triumph', value:'101700' },
+        { label: 'Tsm', value:'968700' },
+        { label: 'TVS', value:'101900' },
+        { label: 'UD', value:'106000' },
+        { label: 'UM', value:'112600' },
+        { label: 'UNDEFINED', value:'209200' },
+        { label: 'Vespa', value:'106900' },
+        { label: 'Victory', value:'102100' },
+        { label: 'Volkswagon', value:'120400' },
+        { label: 'Voltas', value:'104100' },
+        { label: 'Volvo', value:'140100' },
+        { label: 'Wangye', value:'209900' },
+        { label: 'War Eagle', value:'105000' },
+        { label: 'Western Star', value:'102500' },
+        { label: 'X Tream', value:'983000' },
+        { label: 'XCMG', value:'988000' },
+        { label: 'XGMA', value:'208000' },
+        { label: 'XIAGONG', value:'985000' },
+        { label: 'Xiamen', value:'120800' },
+        { label: 'Yale', value:'969200' },
+        { label: 'Yamaha', value:'980200' },
+        { label: 'Yanmar', value:'151000' },
+        { label: 'Yara', value:'130800' },
+        { label: 'Ziegler', value:'969300' },
+        { label: 'Znen', value:'107800' },
+        { label: 'Zoomlion', value:'107600' },
+        { label: 'Zotye', value:'107900' },
+        { label: 'ZTOMYF', value:'106700' },
+        { label: 'ZX Auto', value:'101600' },
+        { label: 'ZX AUTO', value:'1001034' }
+      ]
+    },
     getTravelTypes() {
       return [
         { label: 'Business', value: '1' },
@@ -739,6 +1294,13 @@ export default {
       return [
         { label: 'Single Trip', value:'1' },
         { label: 'Multiple Trip', value:'2' }
+      ]
+    },
+    getRiskTypes() {
+      return [
+        {label:'residential', value: '1' },
+        {label:'restaurant', value: '2' },
+        {label:'commercial', value: '3' }
       ]
     },
     getCountries() {

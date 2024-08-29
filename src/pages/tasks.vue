@@ -1240,7 +1240,7 @@ export default {
         {
           label: "Fire",
           value: "1",
-          color: "amber",
+          color: "orange",
         },
         {
           label: "Marine",
