@@ -5,7 +5,6 @@ import messages from 'src/i18n'
 import axios from 'axios'
 import _ from 'lodash';
 import * as moment from "moment/moment.js"
-import 'particles.js'
 
 import firebase from "firebase/app";
 import "firebase/auth";

@@ -16,7 +16,7 @@ export default {
                 {
                   label: "Category",
                   value: "task_group",
-                  style:"width:90px;white-space:normal"
+                  style:"width:120px;padding:0;white-space:normal"
                 },
                 {
                   label: "Task Creation",
@@ -36,7 +36,7 @@ export default {
                 {
                   label: "Status",
                   value: "task_status",
-                  style:"width:70px;white-space:normal"
+                  style:"width:120px;padding:0;white-space:normal"
                 },
                 {
                   label: "Assign To",
@@ -46,7 +46,7 @@ export default {
                 {
                   label: "Line Of Business",
                   value: "LOB",
-                  style:"width:70px;white-space:normal"
+                  style:"width:160px;padding:0;white-space:normal"
                 },
                 {
                   label: "LOB Form",

@@ -5,20 +5,20 @@
         <div id="particles-js"></div>
         <q-card
           class="login-form"
-          v-bind:style="$q.platform.is.mobile?{'width': '80%'}:{'width':'30%'}"
+          v-bind:style="$q.platform.is.mobile?{'width': '80%','opacity':'0.5'}:{'width':'30%','opacity':'0.4'}"
         >
           <q-avatar
             square
             size="120px"
             class="absolute"
-            style="top: -17px;right: 0px;transform: translateY(-50%);"
+            style="right: 0px"
           >
             <img src="/app-icon.png" />
           </q-avatar>
           <q-img
             class='q-mt-md'
             src="/desk-illustration.svg"
-          />
+          ></q-img>
           <q-card-section>
 
             <div class="row no-wrap items-center">

@@ -1,80 +1,77 @@
 <template>
   <div class="kycfont2">
-    <div class="q-py-md q-gutter-xl row justify-evenly items-center">
-      <q-card>
-        <q-card-section> Vims </q-card-section>
-        <q-separator />
-        <q-card-section class="row q-gutter-md">
-          <q-input label="Username" v-model="vimUser"/>
-            <q-separator vertical inset/>
-          <q-input label="Password" v-model="vimPass"/>
-        </q-card-section>
-      </q-card>
-      <q-separator vertical/>
-      <div class="q-gutter-md">
-        <q-btn-toggle
-          v-model="model.work_place"
-          toggle-color="primary"
-          :options="[
-            { label: 'Home', value: 'h' },
-            { label: 'Office', value: 'o' },
-          ]"
-        />
-        <q-select
-          outlined
-          bg-color="white"
-          label="User logged In"
-          v-model="userloggedIn"
-          @update:model-value="
-            (val) => {
-              model.SOBname = val;
-              model.task_created_by = val.email;
-              console.log(val);
-            }
-          "
-          :options="usersOptionsList"
-        >
-          <template v-if="model.SOBname" v-slot:append>
-            <q-btn round size="sm">
-              <q-avatar size="45px">
-                <img
-                  :src="
-                    model.SOBname.avatar
-                      ? model.SOBname.avatar
-                      : model.SOBname.gender == 'male'
-                      ? 'male2.png'
-                      : 'female2.png'
-                  "
-                />
-              </q-avatar>
-            </q-btn>
-          </template>
-          <template v-slot:option="scope">
-            <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
-              <q-item-section avatar>
-                <q-btn round size="sm">
-                  <q-avatar size="42px">
-                    <img
-                      :src="
-                        scope.opt.avatar
-                          ? scope.opt.avatar
-                          : scope.opt.gender == 'male'
-                          ? 'male2.png'
-                          : 'female2.png'
-                      "
-                    />
-                  </q-avatar>
-                </q-btn>
-              </q-item-section>
-              <q-item-section :style="$store.getters.systemfontStyle">
-                <q-item-label>{{ scope.opt.label }}</q-item-label>
-              </q-item-section>
-            </q-item>
-          </template>
-        </q-select>
+    <div class="q-pa-sm">
+      <div class="row q-col-gutter-sm">
+        <div class="col-xs-12 col-md-5">
+          <q-card style="padding: 3px" flat bordered class="bg-grey-2">
+            <q-card-section class="row q-gutter-md">
+              <q-input
+                class="col-5"
+                outlined
+                bg-color="white"
+                label="VIMS Username"
+                v-model="vimUser"
+              />
+              <q-separator vertical inset />
+              <q-input
+                class="col-5"
+                outlined
+                bg-color="white"
+                label="VIMS Password"
+                v-model="vimPass"
+              />
+            </q-card-section>
+          </q-card>
+        </div>
+        <div class="col-xs-12 col-md-6">
+          <div>
+            <q-btn-toggle
+              spread
+              v-model="model.work_place"
+              toggle-color="negative"
+              :options="[
+                { label: 'Home', value: 'h' },
+                { label: 'Office', value: 'o' },
+              ]"
+            />
+            <q-input
+              v-if="model.SOB"
+              class="q-mt-xs"
+              outlined
+              readonly
+              bg-color="grey-1"
+              v-model="model.SOB.name"
+            >
+              <template v-slot:append>
+                <q-avatar size="45px">
+                  <img
+                    :src="
+                      model.SOB.avatar
+                        ? model.SOB.avatar
+                        : model.SOB.gender == 'male'
+                        ? 'male2.png'
+                        : 'female2.png'
+                    "
+                  />
+                </q-avatar>
+              </template>
+            </q-input>
+          </div>
+        </div>
+        <div class="col">
+          <div class="column justify-center q-gutter-sm">
+            <q-btn flat @click="right = !right" dense icon="menu" />
+            <q-btn
+              color="teal-8"
+              style="padding-top: 15px; padding-bottom: 15px"
+              outline
+              @click="logout"
+              >Logout</q-btn
+            >
+          </div>
+        </div>
       </div>
     </div>
-    <q-separator />
     <q-drawer
       v-model="right"
       show-if-above
@@ -94,24 +91,14 @@
                 padding="5px"
                 icon="fas fa-arrow-left"
                 @click="right = false"
-              ></q-btn>
+              />
             </div>
             <div>Go Back</div>
           </div>
         </div>
         <div class="q-mt-sm q-pa-md">
           <div class="row q-col-gutter-sm">
-            <div class="text-h6 text-bold Syne col-12">Add new task</div>
-            <div class="col-12">
-              <q-input
-                bg-color="white"
-                label="SOB Name"
-                outlined
-                readonly
-                v-model="model.SOBname.label"
-              >
-              </q-input>
-            </div>
+            <div class="text-h6 text-bold Syne col-12">Add New Task</div>
             <div class="col-12">
               <q-input
                 bg-color="white"
@@ -119,8 +106,7 @@
                 outlined
                 readonly
                 v-model="model.taskEntryDateTime"
-              >
-              </q-input>
+              />
             </div>
             <div class="col-12">
               <q-select
@@ -147,7 +133,7 @@
                   </q-btn>
                 </template>
                 <template v-slot:option="scope">
-                  <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
+                  <q-item v-bind="scope.itemProps">
                     <q-item-section avatar>
                       <q-btn round size="sm">
                         <q-avatar size="42px">
@@ -215,10 +201,8 @@
                     <q-item-section>
                       <q-item-label>{{ scope.opt.label }}</q-item-label>
                     </q-item-section>
-
                     <q-item-section side>
                       {{ scope.opt.timeNeeded.count }}
-
                       {{
                         scope.opt.timeNeeded.unit_of_time == "days"
                           ? " working days"
@@ -233,9 +217,22 @@
               <q-select
                 outlined
                 label="Line Of Business"
+                :bg-color="(model.LOB ? (model.LOB.color + '-2') : 'white')"
                 v-model="model.LOB"
                 :options="lineOfBusiness"
               >
+                <template v-slot:option="scope">
+                  <q-item
+                    v-bind="scope.itemProps"
+                    :class="
+                      'text-grey-9 bg-' + (scope.opt.color ? (scope.opt.color + '-2') : 'white')
+                    "
+                  >
+                    <q-item-section>
+                      <q-item-label>{{ scope.opt.label }}</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </template>
               </q-select>
             </div>
             <div class="col-12">
@@ -244,7 +241,11 @@
                 v-model="model.task_status"
                 :options="statusop()"
                 label="Task Status"
-                :bg-color="model.task_status ? getStatusColor(model.task_status) + '-2' : 'white'"
+                :bg-color="
+                  model.task_status
+                    ? getStatusColor(model.task_status) + '-2'
+                    : 'white'
+                "
               >
                 <template v-slot:option="scope">
                   <q-item
@@ -265,11 +266,13 @@
               <q-btn
                 @click="addNewTask()"
                 outline
+                color="green-7"
                 class="full-width"
-                size="lg"
+                size="md"
                 no-caps
-                label="Add New Task"
-              ></q-btn>
+                icon="fas fa-plus"
+                padding="md"
+              />
             </div>
           </div>
         </div>
@@ -357,7 +360,7 @@
                     style="min-width: 150px"
                   >
                     <template v-slot:option="scope">
-                      <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
+                      <q-item v-bind="scope.itemProps">
                         <q-item-section>
                           <q-item-label v-html="scope.opt.label"></q-item-label>
                         </q-item-section>
@@ -481,12 +484,8 @@
                   ]"
                   :style="col.style ? col.style : ''"
                 >
-
-                <!-- History Column -->
-                <div
-                    class="text-center"
-                    v-if="col.name == 'tasks_updates'"
-                  >
+                  <!-- History Column -->
+                  <div class="text-center" v-if="col.name == 'tasks_updates'">
                     <div v-if="col.value">
                       <q-btn
                         outline
@@ -508,7 +507,9 @@
                               v-for="(taskhistitem, histitemind) in col.value"
                               :key="'histitem' + histitemind"
                             >
-                              <q-item-section style="max-width: 350px; white-space: normal">
+                              <q-item-section
+                                style="max-width: 350px; white-space: normal"
+                              >
                                 <q-item-label>
                                   {{ taskhistitem.label }}
                                 </q-item-label>
@@ -551,20 +552,23 @@
 
                   <!-- Category Column-->
                   <q-btn
+                    square
+                    style="height: 140px; padding: 0"
                     flat
-                    class="text-center full-width"
-                    v-else-if="col.name == 'task_group'"
-                  >
-                    {{ col.value ? col.value.label : "" }}
-                    <q-menu
-                      v-if="
+                    :class="
+                      'text-center full-width' +
+                      (
                         haveAccess(
                           props.row.task_created_by,
                           props.row.assignTo,
                           props.row.task_status
-                        )
-                      "
-                    >
+                        ) ? '' : ' no-pointer-events'
+                      )
+                    "
+                    v-else-if="col.name == 'task_group'"
+                  >
+                    {{ col.value ? col.value.label : "" }}
+                    <q-menu>
                       <q-item
                         :class="'text-grey-9 bg-' + (ggr ? ggr.color : 'white')"
                         v-close-popup
@@ -598,15 +602,27 @@
                   <!-- Task Creation Column -->
                   <div v-else-if="col.name == 'tasks_creation'">
                     <div class="text-center" v-if="props.row.tasks_updates">
-                      <q-btn outline color="primary" size="11.4px" round>
+                      <q-btn
+                        outline
+                        color="primary"
+                        size="11.4px"
+                        round
+                        :class="
+                          haveAccess(
+                            props.row.task_created_by,
+                            props.row.assignTo,
+                            props.row.task_status
+                          ) ? '' : 'no-pointer-events'
+                        "
+                      >
                         <q-avatar size="30px">
                           <img
                             :src="
-                              getUserInfo2(
+                              getUserAvatar(
                                 props.row.tasks_updates[
                                   Object.keys(props.row.tasks_updates)[0]
                                 ]
-                              ).avatar
+                              )
                             "
                           />
                         </q-avatar>
@@ -641,18 +657,29 @@
                         Object.keys(props.row.tasks_updates).length > 1
                       "
                     >
-                      <q-btn outline color="primary" size="11.4px" round>
+                      <q-btn
+                        outline
+                        color="primary"
+                        size="11.4px"
+                        round
+                        :class="
+                          haveAccess(
+                            props.row.task_created_by,
+                            props.row.assignTo,
+                            props.row.task_status
+                          ) ? '' : 'no-pointer-events'
+                        "
+                      >
                         <q-avatar size="30px">
                           <img
                             :src="
-                              getUserInfo2(
+                              getUserAvatar(
                                 props.row.tasks_updates[
                                   Object.keys(props.row.tasks_updates)[
-                                    Object.keys(props.row.tasks_updates)
-                                      .length - 1
+                                    Object.keys(props.row.tasks_updates).length - 1
                                   ]
                                 ]
-                              ).avatar
+                              )
                             "
                           />
                         </q-avatar>
@@ -702,22 +729,28 @@
 
                   <!-- Status Column -->
                   <q-btn
+                    square
+                    style="height: 140px; padding: 0"
                     flat
-                    class="text-center full-width"
-                    v-else-if="col.name == 'task_status'"
-                  >
-                    {{ props.row.task_status }}
-                    <q-menu
-                      v-if="
+                    :class="
+                      'text-center full-width' +
+                      (
                         haveAccess(
                           props.row.task_created_by,
                           props.row.assignTo,
-                          'doesnotmatter'
-                        )
-                      "
-                    >
+                          props.row.task_status
+                        ) ? '' : ' no-pointer-events'
+                      )
+                    "
+                    v-else-if="col.name == 'task_status'"
+                  >
+                    {{ props.row.task_status }}
+                    <q-menu>
                       <q-item
-                        :class="'text-grey-9 bg-' + (status ? getStatusColor(status) + '-2' : 'white')"
+                        :class="
+                          'text-grey-9 bg-' +
+                          (status ? getStatusColor(status) + '-2' : 'white')
+                        "
                         v-close-popup
                         @click="
                           props.row.task_status = status;
@@ -752,9 +785,21 @@
                   <!-- Assign To Column -->
                   <div class="text-center" v-else-if="col.name == 'assignTo'">
                     <div v-if="col.value">
-                      <q-btn outline color="primary" size="11.4px" round>
+                      <q-btn
+                        outline
+                        color="primary"
+                        size="11.4px"
+                        round
+                        :class="
+                          haveAccess(
+                            props.row.task_created_by,
+                            props.row.assignTo,
+                            props.row.task_status
+                          ) ? '' : 'no-pointer-events'
+                        "
+                      >
                         <q-avatar size="30px">
-                          <img :src="getUserInfo(col.value).avatar" />
+                          <img :src="getUserAvatar(col.value)"/>
                         </q-avatar>
                       </q-btn>
                       <div style="font-size: 10px; margin-top: 0px">
@@ -786,7 +831,7 @@
                       >
                         <q-item-section avatar>
                           <q-avatar size="30px">
-                            <img :src="assignuser.avatar" />
+                            <img :src="getUserAvatar(assignuser)" />
                           </q-avatar>
                         </q-item-section>
                         <q-item-section :style="$store.getters.systemfontStyle">
@@ -798,28 +843,34 @@
 
                   <!-- Line Of Business Column -->
                   <q-btn
+                    square
+                    style="height: 140px; padding: 0"
                     flat
-                    class="text-center full-width"
-                    v-else-if="col.name == 'LOB'">
-                    {{ props.row.LOB.label }}
-                    <q-menu
-                      v-if="
+                    :class="
+                      'text-center full-width text-grey-9 bg-' +
+                      (props.row.LOB ? (props.row.LOB.color + '-2') : 'white') +
+                      (
                         haveAccess(
                           props.row.task_created_by,
                           props.row.assignTo,
                           props.row.task_status
-                        )
-                      "
-                    >
+                        ) ? '' : ' no-pointer-events'
+                      )
+                    "
+                    v-else-if="col.name == 'LOB'"
+                  >
+                    {{ props.row.LOB.label }}
+                    <q-menu>
                       <q-item
+                        :key="LOB.value"
+                        :class="'text-grey-9 bg-' + (LOB ? (LOB.color + '-2') : 'white')"
                         v-close-popup
                         @click="
                           props.row.LOB = LOB;
-                          props.row.lobForm = null
-                          saveTask(
+                          props.row.lobForm = null;
+                          resetLobForm(
                             props.row.key,
-                            props.row,
-                            'Assigned To Changed'
+                            props.row
                           );
                         "
                         clickable
@@ -833,31 +884,52 @@
                   </q-btn>
 
                   <!-- LOB Form Column -->
-                  <div
-                    class="text-center"
-                    v-else-if="col.name == 'LOBform'"
-                  >
+                  <div class="text-center" v-else-if="col.name == 'LOBform'">
                     <q-btn
+                      v-if="
+                        haveAccess(
+                          props.row.task_created_by,
+                          props.row.assignTo,
+                          props.row.task_status
+                        )
+                      "
                       outline
                       padding="3px"
-                      color="primary"
-                      :icon="props.row.lobForm ? 'fas fa-edit' : 'fas fa-plus'"
+                      :color="(props.row.LOB ? (props.row.LOB.color + '-7') : 'white')"
+                      :icon="
+                        props.row.lobForm ||
+                        props.row.premium ||
+                        props.row.dates ||
+                        props.row.renewal ||
+                        props.row.cpr
+                          ? 'fas fa-edit'
+                          : 'fas fa-plus'
+                      "
                       @click="
                         openLOBFormDialog(
+                          props.row,
                           props.row.key,
                           props.row.LOB,
-                          props.row.lobForm
+                          props.row.lobForm,
+                          props.row.premium,
+                          props.row.dates,
+                          props.row.renewal,
+                          props.row.cpr
                         )
                       "
                     />
                   </div>
 
                   <!-- Activate Genie Column -->
-                  <div
-                    class="text-center"
-                    v-else-if="col.name == 'task_genie'"
-                  >
+                  <div class="text-center" v-else-if="col.name == 'task_genie'">
                     <q-btn
+                      v-if="
+                        haveAccess(
+                          props.row.task_created_by,
+                          props.row.assignTo,
+                          props.row.task_status
+                        )
+                      "
                       @click="activateGenie(props.row)"
                       size="md"
                       outline
@@ -880,7 +952,16 @@
                     >
                       <q-btn-toggle
                         v-model="props.row.task_description_dir"
-                        class="q-mx-none border-primary"
+                        :class="
+                          'q-mx-none border-primary' +
+                          (
+                            haveAccess(
+                              props.row.task_created_by,
+                              props.row.assignTo,
+                              props.row.task_status
+                            ) ? '' : ' no-pointer-events'
+                          )
+                        "
                         no-caps
                         dense
                         size="sm"
@@ -895,6 +976,13 @@
                       />
                     </div>
                     <q-input
+                      :class="
+                        haveAccess(
+                          props.row.task_created_by,
+                          props.row.assignTo,
+                          props.row.task_status
+                        ) ? '' : 'no-pointer-events'
+                      "
                       :readonly="
                         haveAccess(
                           props.row.task_created_by,
@@ -1033,7 +1121,7 @@
                                 style="width: 220px; white-space: normal"
                                 :dir="taction.action_dir"
                                 v-html="taction.action"
-                              ></div>
+                              />
                             </q-item-label>
                             <q-item-label caption>
                               <div class="row no-wrap q-col-gutter-xs">
@@ -1070,9 +1158,18 @@
     </div>
 
     <q-dialog v-model="lobDialog.flag">
-      <q-card v-if="lobDialog.flag">
-        <lobForm @hideDialog=hideDlg() :existingLOB="lobDialog.existingLOB" :lob="lobDialog.lob" :qkey="lobDialog.qkey"/>
-      </q-card>
+      <lobForm
+        v-if="lobDialog.flag"
+        @hideDialog="hideDlg()"
+        :obj="lobDialog.obj"
+        :existingLOB="lobDialog.existingLOB"
+        :existingPremium="lobDialog.existingPremium"
+        :existingDates="lobDialog.existingDates"
+        :existingRenewal="lobDialog.existingRenewal"
+        :existingCPR="lobDialog.existingCPR"
+        :lob="lobDialog.lob"
+        :qkey="lobDialog.qkey"
+      />
     </q-dialog>
   </div>
 </template>
@@ -1080,6 +1177,8 @@
 import requestsCommon from "../mixins/requestsCommon";
 import tasksTableMixin from "../mixins/tasksTableMixin";
 import lobForm from "../components/lobForm.vue";
+import fbLoginMixin from "../mixins/fbLoginMixin";
+
 export default {
   components: { lobForm },
   watch: {
@@ -1087,24 +1186,29 @@ export default {
       immediate: true,
       handler(newval) {
         if (newval) {
-          this.model.SOBname = newval.name;
+          this.model.SOB = newval;
+
           this.model.task_created_by = newval.email;
         }
       },
     },
   },
-  mixins: [requestsCommon, tasksTableMixin],
+  mixins: [requestsCommon, tasksTableMixin, fbLoginMixin],
   data() {
     return {
-      vimUser: 'amatar',
-      vimPass: 'AM@tg01',
+      vimUser: "",
+      vimPass: "",
       lobDialog: {
         flag: false,
+        obj: null,
         lob: null,
         qkey: null,
         existingLOB: null,
+        existingPremium: null,
+        existingDates: null,
+        existingRenewal: null,
+        existingCPR: null,
       },
-      userloggedIn: "Mahmood",
       viewop: "open",
       allusers: [],
       isgrid: false,
@@ -1114,15 +1218,7 @@ export default {
       usersOptionsList: [],
       filter: "",
       model: {
-        SOBname: {
-          key: "-NXJYboxmeq4-6YnAIea",
-          label: "Mahmood",
-          avatar: "https://firebasestorage.googleapis.com/v0/b/tg-commercial.appspot.com/o/usersProfiles%2Ffile%20-1706000561216WhatsApp%20Image%202024-01-23%20at%2011.50.57%20AM.jpeg?alt=media&token=65cd5f19-8a71-4dad-9c1f-6acb977d8e46",
-          gender: "male",
-          email: "mahmood.towergate@gmail.com",
-          access: "staff",
-          userStatus: "active",
-        },
+        SOB: null,
         task_created_by: null,
         assignTo: null,
 
@@ -1136,49 +1232,55 @@ export default {
         tasks_actions: [],
         requiredSupportiveDocuments: true,
         receivedRequiredSupportiveDocuments: false,
-
         task_status: "Open",
-        LOB: { label: "Motor", value: "4" },
-        cotation_details: null,
-
+        LOB: { label: "Motor", value: "4", color: "blue-grey" },
         work_place: "o",
       },
       lineOfBusiness: [
         {
           label: "Fire",
-          value: "1"
+          value: "1",
+          color: "amber",
         },
         {
           label: "Marine",
-          value: "2"
+          value: "2",
+          color: "cyan",
         },
         {
           label: "Medical",
-          value: "3"
+          value: "3",
+          color: "lime",
         },
         {
           label: "Motor",
-          value: "4"
+          value: "4",
+          color: "blue-grey",
         },
         {
           label: "Life",
-          value: "5"
+          value: "5",
+          color: "red",
         },
         {
           label: "Motor Fleet",
-          value: "6"
+          value: "6",
+          color: "blue",
         },
         {
           label: "General",
-          value: "7"
+          value: "7",
+          color: "indigo",
         },
         {
           label: "Travel",
-          value: "8"
+          value: "8",
+          color: "brown",
         },
         {
-          label: "PerformanceBOND",
-          value: "9"
+          label: "Performance BOND",
+          value: "9",
+          color: "teal",
         },
       ],
       tasksGroupOptions: [
@@ -1280,18 +1382,15 @@ export default {
   },
   computed: {
     apiURL2() {
-      if (this.model.work_place == 'o')
-        return "http://10.10.40.234:9999"
-      else
-        return "http://109.161.174.225:999"
+      if (this.model.work_place == "o") return "http://10.10.40.234:9999";
+      else return "http://109.161.174.225:999";
     },
     listc() {
       var self = this;
       if (!this.list) return null;
       let list = this.list;
-      // !this.$store.getters.isAdmin
-      // amina , ali to return this if statement when we do log in
-      if (false) {
+
+      if (this.$store.getters.isAdmin) {
         var quoteAdmin;
         var isQuoteAdmin = false;
         //check current user is issuance admin
@@ -1345,53 +1444,42 @@ export default {
   },
   methods: {
     activateGenie(row) {
-      let self = this
-      let lobf = row.lobForm
-      this.axios.post("http://localhost:8086/addVIMSPolicy",{
+      let self = this;
+      let lobf = {
+        ...row.renewal,
+        ...row.dates,
+        ...row.premium,
+        ...row.lobForm,
+        CPR: row.cpr,
         vimsip: self.apiURL2,
         username: self.vimUser,
         password: self.vimPass,
         lob: row.LOB.value,
-        product: lobf.product.value,
-        isRenewal: lobf.isRenewal,
-        oldPolicyNo: lobf.oldPolicyNo,
-        plateNo: lobf.plateNo,
-        CPR: lobf.CPR,
-        make: lobf.make,
-        startDate: lobf.startDate,
-        expiryDate: lobf.expiryDate,
-        chassisNo: lobf.chassisNo,
-        seats: lobf.seats,
-        year: lobf.year,
-        engine: lobf.engine,
-        cc: lobf.cc,
-        note: lobf.note,
-        repcar: lobf.repcar,
-        color: lobf.color.value,
-        model: lobf.model,
-        driverCPR: lobf.driverCPR,
-        sumInsured: lobf.sumInsured,
-        selling: lobf.selling,
-        otherServices: lobf.otherServices,
-        gross: lobf.gross,
-        discount: lobf.discount,
-        grossVATinvoice: lobf.grossVATinvoice,
-        excess: lobf.excess,
-        otherServicesDiscount: lobf.otherServicesDiscount,
-        otherServicesVAT: lobf.otherServicesVAT,
-        grossVAT: lobf.grossVAT
-      })
+      };
+      this.axios.post("http://localhost:8086/addVIMSPolicy", lobf);
     },
     hideDlg() {
-      this.lobDialog.flag = false
+      this.lobDialog.flag = false;
     },
-    openLOBFormDialog(qkey, lob, existingLOB) {
-      console.log()
+    openLOBFormDialog(
+      obj,
+      qkey,
+      lob,
+      existingLOB,
+      existingPremium,
+      existingDates,
+      existingRenewal,
+      existingCPR
+    ) {
       this.lobDialog.flag = true;
-      if (lob) this.lobDialog.lob = lob;
-      this.lobDialog.qkey = qkey;
-      if (existingLOB) this.lobDialog.existingLOB = existingLOB;
-      else this.lobDialog.existingLOB = null;
+      this.lobDialog.lob = lob
+      this.lobDialog.qkey = qkey
+      this.lobDialog.obj = obj ? obj : null
+      this.lobDialog.existingLOB = existingLOB ? existingLOB : null
+      this.lobDialog.existingPremium = existingPremium ? existingPremium : null
+      this.lobDialog.existingDates = existingDates ? existingDates : null
+      this.lobDialog.existingRenewal = existingRenewal ? existingRenewal : null
+      this.lobDialog.existingCPR = existingCPR ? existingCPR : null
     },
     selectStatus(status) {
       this.model.task_status = status;
@@ -1416,21 +1504,6 @@ export default {
 
       var allowToClose = false; // only for the user created the quote
       if (task_created_by == this.$store.state.currentuser) allowToClose = true;
-
-      // if (task_assigned_to) {
-      //   if (
-      //     task_assigned_to.access == "issuenceAdmin" &&
-      //     this.$store.state.quoteAdmins
-      //   ) {
-      //     var quoteAdmin;
-      //     //check current user is issuance admin
-      //     for (var itemind in this.$store.state.quoteAdmins) {
-      //       quoteAdmin = this.$store.state.quoteAdmins[itemind];
-      //       if (quoteAdmin.value == this.$store.state.currentuser) return true;
-      //     }
-      //   } else if (task_assigned_to.email == this.$store.state.currentuser)
-      //     return true;
-      // }
       if (allowToClose)
         return [
           "Open",
@@ -1532,6 +1605,10 @@ export default {
       }
       return userObj;
     },
+    getUserAvatar(userObj) {
+      let obj = this.getUserInfo2(userObj)
+      return obj.avatar ? obj.avatar : obj.gender == "male" ? "male2.png" : "female2.png";
+    },
     checkAndUpdateTaskDescription(task) {
       if (task.task_description !== task.original_task_description) {
         this.saveTask(
@@ -1559,26 +1636,26 @@ export default {
     },
     resetTaskForm() {
       this.model = {
+        taskEntryDateTime: this.$moment().format("YYYY-MM-DD hh:mm A"),
+        SOB: this.$store.state.userProfile ? this.$store.state.userProfile : "",
         task_created_by: this.$store.state.userProfile
           ? this.$store.state.userProfile.email
           : "",
-        // SOBname: this.$store.state.userProfile
-        //   ? this.$store.state.userProfile.name
-        //   : "",
         assignTo: null,
 
         task_description: null,
         task_description_dir: "ltr",
 
         task_group: null,
-        taskEntryDateTime: this.$moment().format("YYYY-MM-DD hh:mm A"),
         task_closed_datetime: "",
         tasks_updates: [],
         tasks_actions: [],
         requiredSupportiveDocuments: true,
         receivedRequiredSupportiveDocuments: false,
         task_status: "Open",
-      };
+        LOB: { label: "Motor", value: "4", color: "blue-grey" },
+        work_place: "o",
+      }
     },
     deleteTask(task_id) {
       var self = this;
@@ -1628,6 +1705,18 @@ export default {
         }
         self.hideloading();
       });
+    },
+    resetLobForm(key, Obj) {
+      var self = this;
+      Obj.lobForm = null
+      this.db.ref("/tasks/" + key).set(Obj, function (error) {
+        if (error) {
+          self.fnotify(error.message);
+        } else {
+          self.snotify("Tasks updated Successfully")
+        }
+        self.hideloading();
+      })
     },
     getTasks() {
       var self = this;
@@ -1764,24 +1853,17 @@ export default {
     },
     updateInfo() {
       return {
-        username: "mahmood.towergate@gmail.com",
-        user_english_name: "Test just for now",
+        username: this.$store.state.currentuser
+          ? this.$store.state.currentuser
+          : "",
+        user_english_name:
+          this.$store.state.userProfile && this.$store.state.userProfile.name
+            ? this.$store.state.userProfile.name
+            : "",
         timeStampSTD: this.StartOfDayTStamp(),
         timeStamp: new Date().getTime(),
         datetime: this.$moment().format("YYYY-MM-DD hh:mm A"),
       };
-      // return {
-      //   username: this.$store.state.currentuser
-      //     ? this.$store.state.currentuser
-      //     : "",
-      //   user_english_name:
-      //     this.$store.state.userProfile && this.$store.state.userProfile.name
-      //       ? this.$store.state.userProfile.name
-      //       : "",
-      //   timeStampSTD: this.StartOfDayTStamp(),
-      //   timeStamp: new Date().getTime(),
-      //   datetime: this.$moment().format("YYYY-MM-DD hh:mm A"),
-      // };
     },
     addNewTask() {
       var self = this;
